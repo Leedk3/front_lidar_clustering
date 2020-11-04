@@ -15,15 +15,15 @@
 // Constructor
 LidarClustering::LidarClustering() : nh_(""), private_nh_("~"), bPredictivePath(false)
 {
-  private_nh_.param("/voronoi_planner_node/points_topic_name",        m_PointsTopicName, std::string("/velodyne_points"));
-  private_nh_.param("/voronoi_planner_node/neglectable_area",         m_NeglectableArea, double(50));
-  private_nh_.param("/voronoi_planner_node/too_close_area",           m_tooCloseArea, double(0.2));
-  private_nh_.param("/voronoi_planner_node/close_to_predictive_path", m_CloseToPredictivePath, double(5));
-  private_nh_.param("/voronoi_planner_node/wheel_base",               m_WheelBase, double(1.5));
-  private_nh_.param("/voronoi_planner_node/use_cloud_ring",           m_useCloudRing, bool(true));
-  private_nh_.param("/voronoi_planner_node/clustering_distance",      m_ClusteringDistance, double(0.5));
-  private_nh_.param("/voronoi_planner_node/min_clustering_size",      m_MinClusterSize, double(20));
-  private_nh_.param("/voronoi_planner_node/max_clustering_size",      m_MaxClusterSize, double(100000));
+  private_nh_.param("/front_lidar_clustering_node/points_topic_name",        m_PointsTopicName, std::string("/velodyne_points"));
+  private_nh_.param("/front_lidar_clustering_node/neglectable_area",         m_NeglectableArea, double(50));
+  private_nh_.param("/front_lidar_clustering_node/too_close_area",           m_tooCloseArea, double(0.2));
+  private_nh_.param("/front_lidar_clustering_node/close_to_predictive_path", m_CloseToPredictivePath, double(5));
+  private_nh_.param("/front_lidar_clustering_node/wheel_base",               m_WheelBase, double(1.5));
+  private_nh_.param("/front_lidar_clustering_node/use_cloud_ring",           m_useCloudRing, bool(true));
+  private_nh_.param("/front_lidar_clustering_node/clustering_distance",      m_ClusteringDistance, double(0.5));
+  private_nh_.param("/front_lidar_clustering_node/min_clustering_size",      m_MinClusterSize, double(20));
+  private_nh_.param("/front_lidar_clustering_node/max_clustering_size",      m_MaxClusterSize, double(100000));
 
   
 
@@ -43,17 +43,6 @@ LidarClustering::~LidarClustering(){}
 void LidarClustering::init()
 {
   ROS_INFO("initialize voronoi planner");
-
-  // std::vector<Point> points;
-  // points.push_back(Point(0, 0));
-  // points.push_back(Point(1, 6));
-  // std::vector<Segment> segments;
-  // segments.push_back(Segment(-4, 5, 5, -1));
-  // segments.push_back(Segment(3, -11, 13, -1));
-  
-  // voronoi_diagram::voronoi_diagram<double> vd;
-  // construct_voronoi(points.begin(), points.end(), segments.begin(), segments.end(), &vd);
-
 }
 
 void LidarClustering::run()
@@ -304,19 +293,7 @@ void LidarClustering::groundRemoval()
       }
     }
   }
-  // extract ground cloud (groundMat == 1)
-  // mark entry that doesn't need to label (ground and invalid point) for segmentation
-  // note that ground remove is from 0~N_SCAN-1, need rangeMat for mark label matrix for the 16th scan
-  // for (size_t i = 0; i < N_SCAN; ++i)
-  // {
-  //   for (size_t j = 0; j < Horizon_SCAN; ++j)
-  //   {
-  //     if (groundMat.at<int8_t>(i,j) == 1 || rangeMat.at<float>(i,j) == FLT_MAX)
-  //     {
-  //       labelMat.at<int>(i,j) = -1;
-  //     }
-  //   }
-  // }
+
   pcl::PointCloud<pcl::PointXYZI>::Ptr groundCloud(new pcl::PointCloud<pcl::PointXYZI>);
   for (size_t i = 0; i <= groundScanInd; ++i)
   {
