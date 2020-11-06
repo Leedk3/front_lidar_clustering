@@ -133,7 +133,7 @@ void LidarClustering::CallbackPoints(const sensor_msgs::PointCloud2ConstPtr& msg
 
   projectPointCloud();
   filteringCloseToPath();
-  // groundRemoval();
+  groundRemoval();
   // segmentByDistance(m_OutlierFilteredCloud);
 
 }
@@ -304,7 +304,7 @@ void LidarClustering::groundRemoval()
         ground_indices->indices.push_back(j + i*Horizon_SCAN);
     }
   }
-
+  
   m_GroundRemovedCloud->points.clear();
   pcl::ExtractIndices<pcl::PointXYZI> extract;
   extract.setInputCloud(m_fullCloud);

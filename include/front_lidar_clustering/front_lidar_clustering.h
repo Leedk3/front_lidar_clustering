@@ -1,5 +1,5 @@
 /*
- * front_lidar_clustering.h
+ * front_lidar_clusterings.h
  *
  *  Created on: Oct 25, 2020
  *      Author: Daegyu Lee
@@ -41,7 +41,9 @@
 #include <pcl/features/don.h>
 
 #include <pcl/kdtree/kdtree.h>
-voronoi_planner
+
+#include <pcl/sample_consensus/method_types.h>
+#include <pcl/sample_consensus/model_types.h>
 
 #include <pcl/segmentation/sac_segmentation.h>
 #include <pcl/segmentation/extract_clusters.h>
@@ -58,7 +60,11 @@ voronoi_planner
 // headers in STL
 #include <memory>
 #include <cmath>
-#include <type_traits>voronoi_planner
+#include <type_traits>
+#include <stdio.h>
+
+#include <opencv/cv.h>
+#include <opencv/highgui.h>
 #include <opencv2/core/version.hpp>
 
 struct PointXYZIR
@@ -83,7 +89,10 @@ struct PointXYZIRPYT
     PCL_ADD_POINT4D
     PCL_ADD_INTENSITY;
     float roll;
-    float pitch;voronoi_planner
+    float pitch;
+    float yaw;
+    double time;
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 } EIGEN_ALIGN16;
 
 POINT_CLOUD_REGISTER_POINT_STRUCT (PointXYZIRPYT,
